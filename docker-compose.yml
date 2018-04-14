@@ -1,30 +1,40 @@
 version: '3'
 
 services:
-  web:
-        build: .
+  nginx:
+    build: ./nginx
+    # links:
+    #     - node1:node1
+    #     - node2:node2
+    ports:
+        - "80:80"
+  node:
+        build: ./node
+        restart: always
         environment:
             - NODE_ENV=development
         command: "npm start"
         volumes:
-            - .:/usr/app/
-            - /usr/app/node_modules
+            - ./node:/usr/app/
         ports:
-            - "8080:8080"
+            - 8083:8080
         links:
-            - mongodb
+            - mongo
         depends_on:
-            - mongodb
-  mongodb:
+            - mongo
+  mongo:
         image: mongo:3.4.5
-        container_name: "mongodb"
+        container_name: "mongo"
         environment:
+          - AUTH=no
           - MONGO_DATA_DIR=/data/db
           - MONGO_LOG_DIR=/dev/null
           - MONGODB_USER="user" 
           - MONGODB_PASS="pass"
         volumes:
-          - ./data/db:/data/db
+          - data:/data/db
         ports:
             - 27017:27017
-        command: mongod --smallfiles --logpath=/dev/null # --quiet
+        command: mongod --smallfiles
+volumes:
+  data:
