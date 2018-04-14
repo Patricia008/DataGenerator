@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "author": "Patricia Petrut <petrut.patricia@gmail.com>",
   "description": "x",
-  "main": "server.js",
+  "main": "./src/server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node ./src/server.js"
   },
   "dependencies": {
     "hapi": "^17.3.1",

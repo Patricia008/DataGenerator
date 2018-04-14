@@ -10,9 +10,9 @@ services:
         - "80:80"
   node:
         build: ./node
-        restart: always
         environment:
             - NODE_ENV=development
+            - CURRENT_VERSION=1.0.0
         command: "npm start"
         volumes:
             - ./node:/usr/app/

@@ -1,0 +1,7 @@
+{
+  "name": "serveEndpoints",
+  "version": "1.0.0",
+  "description": "Plugin for endpoints",
+  "main": "serveEndpoints.js",
+  "author": "Patricia Petrut <petrut.patricia@gmail.com>"
+}

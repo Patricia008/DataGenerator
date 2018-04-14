@@ -21,26 +21,15 @@ var connectionStatus = MongoClient.connect(MongoDBUrl, function(err, db) {
 
 });
 
-// Create a server with a host and port
 const server=Hapi.server({
     host:'0.0.0.0',
     port:8080
 });
 
-// Add the route
-server.route({
-    method:'GET',
-    path:'/',
-    handler:function(request,h) {
-
-        return 'Hello';
-    }
-});
-
-// Start the server
 async function start() {
 
     try {
+        await server.register(require('./plugins/serveEndpoints'));
         await server.start();
     }
     catch (err) {
@@ -48,7 +37,7 @@ async function start() {
         process.exit(1);
     }
 
-    console.log('Server running at:', server.info.uri);
+    console.log('>>>>>>Server running');
 };
 
 start();
