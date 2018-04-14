@@ -1,15 +1,18 @@
 'use strict';
 
+const MongoConnectionService = require('../services/mongoConnectionService');
+
 exports.plugin = {
     pkg: require('./package.json'),
     register: async function (server, options) {
 
+        
         server.route({
             method: 'GET',
-            path: '/',
+            path: '/checkConnection',
             handler: function (request, h) {
 
-                return 'hello, world';
+                return MongoConnectionService.checkConnection(options.mongoDBUrl);
             }
         });
 
