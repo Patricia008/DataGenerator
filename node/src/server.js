@@ -9,20 +9,6 @@ const server=Hapi.server({
     port:8080
 });
 
-// Retrieve
-var MongoClient = require('mongodb').MongoClient;
-
-// Connect to the db
-MongoClient.connect(MongoDBUrl, function(err, db) {
-  if(!err) {
-    console.log("!!!!!!!!!!!!We are connected");
-    db.close();
-  }
-  else{
-    console.log("???????Not connected to db");
-  }
-});
-
 async function start() {
 
     try {
@@ -40,7 +26,7 @@ async function start() {
         process.exit(1);
     }
 
-    console.log('>>>>>>Server running');
+    console.log('>>>>>> Hapi server running');
 };
 
 start();
