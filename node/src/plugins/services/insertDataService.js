@@ -2,46 +2,21 @@
 
 const MongoClient = require('mongodb').MongoClient;
 const request = require("request");
+const aggregateDataService = require('./aggregateDataService');
 
 module.exports = {
 
-  insertData: function (mongoURL, openUrl){
+  insertAndAggregateData: function (mongoURL, openUrl, databaseName, collectionName){
 
-    //create database
-    MongoClient.connect(mongoURL+'dataGenerationDb', function(err, db) {
-      if (err){
-        console.log(err);
-        process.exit(1);
-      }
-      console.log("Database created!");
-      db.close();
-    });
-
-    //create collection
     MongoClient.connect(mongoURL, function(err, db) {
       if (err){
         console.log(err);
         process.exit(1);
       }
-      var dbo = db.db("dataGenerationDb");
-      dbo.createCollection("tracks", function(err, res) {
-        if (err){
-          console.log(err);
-          process.exit(1);
-        }
-        console.log("Collection created!");
-        db.close();
-      });
-    });
 
-    MongoClient.connect(mongoURL, function(err, db) {
-        if (err){
-            console.log(err);
-            process.exit(1);
-        }
-        request.get(openUrl, (error, resp, body) => {
+      request.get(openUrl, (error, resp, body) => {
         
-          if (!error && resp.statusCode === 200) {
+        if (!error && resp.statusCode === 200) {
             let json = JSON.parse(body);
 
             var tracks = [];
@@ -66,20 +41,24 @@ module.exports = {
               tracks.push(track);
             }
 
-            var dbo = db.db("dataGenerationDb");
+            var dbo = db.db(databaseName);
 
-            dbo.collection("tracks").insertMany(tracks, function(err, res) {
-               if (err){
-                  console.log(err);
-                  process.exit(1);
+            dbo.collection(collectionName).insertMany(tracks, function(err, res) {
+              if (err){
+                console.log(err);
+                process.exit(1);
               }
               console.log("Number of tracks inserted: " + res.insertedCount);
               db.close();
+              aggregateDataService.aggregateData(mongoURL, databaseName, collectionName);
             });
+        }
+      }) 
 
-          } 
-        });
-        db.close();
     });
   }
+
+
+
+
 };

@@ -13,6 +13,8 @@ services:
         environment:
             - MONGO_URL=mongodb://mongo:27017/
             - OPEN_URL=https://itunes.apple.com/search?term=eminem&country=ro
+            - DATABASE_NAME=dataGeneratorDb
+            - COLLECTION_NAME=tracks
         command: "npm start"
         volumes:
             - ./node:/usr/app/

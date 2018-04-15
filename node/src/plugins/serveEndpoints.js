@@ -21,7 +21,7 @@ exports.plugin = {
             path: '/insertData',
             handler: function (request, h) {
 
-                insertDataService.insertData(options.mongoDBUrl, process.env.OPEN_URL);
+                insertDataService.insertAndAggregateData(options.mongoDBUrl, process.env.OPEN_URL, process.env.DATABASE_NAME, process.env.COLLECTION_NAME);
                 return 'ok';
 
                 //return insertDataService.insertData(options.mongoDBUrl, process.env.OPEN_URL);
