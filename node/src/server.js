@@ -2,7 +2,7 @@
 
 const Hapi = require('hapi');
 const MongoDBUrl = process.env.MONGO_URL;
-
+const MongoClient = require('mongodb').MongoClient;
 
 const server=Hapi.server({
     host:'0.0.0.0',

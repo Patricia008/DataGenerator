@@ -1,7 +1,6 @@
 'use strict'
 
 var MongoClient = require('mongodb').MongoClient;
-var isConnected = null;
  
 module.exports = {
 
