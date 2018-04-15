@@ -23,6 +23,7 @@ module.exports = {
             for(let i=0; i<json.resultCount; i++){
               let track = {};
 
+              track.id = i;
               track.artistName = json.results[i].artistName;
               track.trackName = json.results[i].trackName;
               track.collectionName = json.results[i].collectionName;
@@ -50,7 +51,7 @@ module.exports = {
               }
               console.log("Number of tracks inserted: " + res.insertedCount);
               db.close();
-              aggregateDataService.aggregateData(mongoURL, databaseName, collectionName);
+              aggregateDataService.findCollaborationSongs(mongoURL, databaseName, collectionName);
             });
         }
       }) 
