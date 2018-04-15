@@ -4,23 +4,34 @@ var MongoClient = require('mongodb').MongoClient;
 
 module.exports={
 
-	findCollaborationSongs: function (mongoURL, databaseName, collectionName){
+	findCollaborationSongs: function (mongoURL, databaseName, collectionName, eventEmitter){
 		MongoClient.connect(mongoURL, function(err, db) {
 		  if (err){
 		  	console.log(err);
         return false;
 		  }
-		  var dbo = db.db(databaseName);
+		  let dbo = db.db(databaseName);
 
-		  var query = {trackName: /.*feat\..*/ };
-		  dbo.collection(collectionName).find(query).toArray(function(err, result) {
+		  //for each album, count how many collaboration songs there are.
+		  dbo.collection(collectionName).aggregate([
+          {$match: {trackName: /.*feat\..*/ }},
+        	{
+        		$group: {
+	            _id: "$collectionName",
+	            total: { $sum: 1 }
+	          }
+          }
+      ]).toArray(function(err, result) {
 		    if (err){
 		  		console.log(err);
         	return false;
 		 	 	}
-		    console.log("Successfully found ", result.length, " entries that are collaboration songs.");
-		    db.close();
+
+			  console.log("Successfully found ", result.length, " collections that contain collaboration songs:\n", result);
+			  db.close();
+			  eventEmitter.emit('doneAggregating');
 		  });
+      
 		});
 
 	}

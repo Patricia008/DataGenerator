@@ -3,11 +3,18 @@
 const MongoClient = require('mongodb').MongoClient;
 const request = require("request");
 const aggregateDataService = require('./aggregateDataService');
+var events = require('events');
+var eventEmitter = new events.EventEmitter();
+
+var getTime = function () {
+  console.log('???????event I hear a scream!');
+}
 
 module.exports = {
 
   insertAndAggregateData: function (mongoURL, openUrl, databaseName, collectionName){
 
+    eventEmitter.on('doneAggregating', getTime);
     MongoClient.connect(mongoURL, function(err, db) {
       if (err){
         console.log(err);
@@ -51,14 +58,13 @@ module.exports = {
               }
               console.log("Number of tracks inserted: " + res.insertedCount);
               db.close();
-              aggregateDataService.findCollaborationSongs(mongoURL, databaseName, collectionName);
+              aggregateDataService.findCollaborationSongs(mongoURL, databaseName, collectionName, eventEmitter);
             });
         }
       }) 
 
     });
   }
-
 
 
 
