@@ -13,16 +13,23 @@ exports.plugin = {
             path: '/checkConnection',
             handler: function (request, h) {
 
-                return mongoConnectionService.checkConnection(options.mongoDBUrl);
+                return mongoConnectionService.checkConnection(options.mongoDBUrl)
+                    .then((response) => {
+                            const reply = h.response(response);
+                            reply.type('text/plain');
+                            reply.code(response ? 200 : 418);
+                            return reply;
+                        });               
             }
         });
+
+
         server.route({
             method: 'POST',
             path: '/insertData',
             handler: function (request, h) {
 
-                insertDataService.insertAndAggregateData(options.mongoDBUrl, process.env.OPEN_URL, process.env.DATABASE_NAME, process.env.COLLECTION_NAME);
-                return 'ok';
+                return insertDataService.insertAndAggregateData(options.mongoDBUrl, process.env.OPEN_URL, process.env.DATABASE_NAME, process.env.COLLECTION_NAME);
 
                 //return insertDataService.insertData(options.mongoDBUrl, process.env.OPEN_URL);
                         // .catch((err) => {
@@ -40,5 +47,19 @@ exports.plugin = {
                         // });
             }
         });
+
+
+        server.route({
+            method: 'GET',
+            path: '/getExecutionTime',
+            handler: function (request, h) {
+                
+                const reply = h.response(insertDataService.getExecutionTime());
+                reply.type('text/plain');
+                reply.code(200);
+                return reply;
+            }
+        });
+
     }
 };

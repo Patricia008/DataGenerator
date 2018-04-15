@@ -1,6 +1,6 @@
 'use strict';
 
-var MongoClient = require('mongodb').MongoClient;
+const MongoClient = require('mongodb').MongoClient;
 
 module.exports={
 
@@ -35,4 +35,5 @@ module.exports={
 		});
 
 	}
+	
 }

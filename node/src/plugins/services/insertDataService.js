@@ -3,18 +3,24 @@
 const MongoClient = require('mongodb').MongoClient;
 const request = require("request");
 const aggregateDataService = require('./aggregateDataService');
-var events = require('events');
-var eventEmitter = new events.EventEmitter();
+let events = require('events');
+let eventEmitter = new events.EventEmitter();
+let beginTime = 0;
+let endTime = 0;
 
-var getTime = function () {
-  console.log('???????event I hear a scream!');
+let stopTime = function () {
+  endTime = Date.now();
 }
 
 module.exports = {
 
   insertAndAggregateData: function (mongoURL, openUrl, databaseName, collectionName){
+    if (endTime - beginTime != 0){
+      return "Data was already inserted!";
+    }
 
-    eventEmitter.on('doneAggregating', getTime);
+    beginTime = Date.now();
+    eventEmitter.on('doneAggregating', stopTime);
     MongoClient.connect(mongoURL, function(err, db) {
       if (err){
         console.log(err);
@@ -26,7 +32,7 @@ module.exports = {
         if (!error && resp.statusCode === 200) {
             let json = JSON.parse(body);
 
-            var tracks = [];
+            let tracks = [];
             for(let i=0; i<json.resultCount; i++){
               let track = {};
 
@@ -49,7 +55,7 @@ module.exports = {
               tracks.push(track);
             }
 
-            var dbo = db.db(databaseName);
+            let dbo = db.db(databaseName);
 
             dbo.collection(collectionName).insertMany(tracks, function(err, res) {
               if (err){
@@ -61,11 +67,16 @@ module.exports = {
               aggregateDataService.findCollaborationSongs(mongoURL, databaseName, collectionName, eventEmitter);
             });
         }
-      }) 
+      }); 
 
     });
+
+    return "Data insertion process has started!";
+
+  },
+
+  getExecutionTime: function(){
+    return (endTime - beginTime) + " milliseconds";
   }
-
-
 
 };
