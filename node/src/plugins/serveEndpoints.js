@@ -11,6 +11,12 @@ exports.plugin = {
         server.route({
             method: 'GET',
             path: '/checkConnection',
+            config: {
+                cors: {
+                    origin: ['*'],
+                    additionalHeaders: ['cache-control', 'x-requested-with']
+                }
+            },
             handler: function (request, h) {
 
                 return mongoConnectionService.checkConnection(options.mongoDBUrl)
@@ -27,6 +33,12 @@ exports.plugin = {
         server.route({
             method: 'POST',
             path: '/insertData',
+            config: {
+                cors: {
+                    origin: ['*'],
+                    additionalHeaders: ['cache-control', 'x-requested-with']
+                }
+            },
             handler: function (request, h) {
 
                 return insertDataService.insertAndAggregateData(options.mongoDBUrl, process.env.OPEN_URL, process.env.DATABASE_NAME, process.env.COLLECTION_NAME);
@@ -52,6 +64,12 @@ exports.plugin = {
         server.route({
             method: 'GET',
             path: '/getExecutionTime',
+            config: {
+                cors: {
+                    origin: ['*'],
+                    additionalHeaders: ['cache-control', 'x-requested-with']
+                }
+            },
             handler: function (request, h) {
                 
                 const reply = h.response(insertDataService.getExecutionTime());

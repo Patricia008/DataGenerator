@@ -1,3 +1,6 @@
+
+const request = require("request");
+
 const SET_LOGIN_PENDING = 'SET_LOGIN_PENDING';
 const SET_LOGIN_SUCCESS = 'SET_LOGIN_SUCCESS';
 const SET_LOGIN_ERROR = 'SET_LOGIN_ERROR';
@@ -42,13 +45,23 @@ function setLoginError(loginError) {
 
 function callLoginApi(email, password, callback) {
 
-  setTimeout(() => {
-    if (email === 'petrut.patricia@gmail.com' && password === 'patricia') {
-      return callback(null);
-    } else {
-      return callback(new Error('Invalid credentials!'));
-    }
-  }, 1000);
+  request.get("http://localhost:8083/checkConnection", (error, resp, body) => {
+
+        setTimeout(() => {
+
+          if (error || resp.statusCode !== 200 || !body) {
+            return callback(new Error('Not Connected To Db'));          
+          }
+
+          if (email === 'petrut.patricia@gmail.com' && password === 'patricia') {
+            return callback(null);
+          } else {
+            return callback(new Error('Invalid credentials!'));
+          }
+        }, 1000);
+
+      }); 
+
 }
 
 export default function reducer(state = {
