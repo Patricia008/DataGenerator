@@ -5,13 +5,13 @@ const SET_LOGIN_PENDING = 'SET_LOGIN_PENDING';
 const SET_LOGIN_SUCCESS = 'SET_LOGIN_SUCCESS';
 const SET_LOGIN_ERROR = 'SET_LOGIN_ERROR';
 
-export function login(email, password) {
+export function login(email, password, eventEmitter) {
   return dispatch => {
     dispatch(setLoginPending(true));
     dispatch(setLoginSuccess(false));
     dispatch(setLoginError(null));
 
-    callLoginApi(email, password, error => {
+    callLoginApi(email, password, eventEmitter, error => {
       dispatch(setLoginPending(false));
       if (!error) {
         dispatch(setLoginSuccess(true));
@@ -43,7 +43,7 @@ function setLoginError(loginError) {
   }
 }
 
-function callLoginApi(email, password, callback) {
+function callLoginApi(email, password, eventEmitter, callback) {
 
   request.get("http://localhost:8083/checkConnection", (error, resp, body) => {
 
@@ -54,6 +54,7 @@ function callLoginApi(email, password, callback) {
           }
 
           if (email === 'petrut.patricia@gmail.com' && password === 'patricia') {
+            eventEmitter.emit('loginSuccess');
             return callback(null);
           } else {
             return callback(new Error('Invalid credentials!'));

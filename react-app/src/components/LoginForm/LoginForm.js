@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { login } from '../../redux/reducer';
 import './LoginForm.css';
+import { Link } from 'react-router-dom';
+let events = require('events');
+let eventEmitter = new events.EventEmitter();
+
 
 class LoginForm extends Component {
 
@@ -9,9 +13,13 @@ class LoginForm extends Component {
     super(props);
     this.state = {};
     this.onSubmit = this.onSubmit.bind(this);
+    eventEmitter.on('loginSuccess', () => {
+        const path = '/menu/';
+        this.props.history.push(path);
+    });
   }
 
-  render() {
+    render() {
     let {email, password} = this.state;
     let {isLoginPending, isLoginSuccess, loginError} = this.props;
     return (
@@ -41,14 +49,18 @@ class LoginForm extends Component {
 
   onSubmit(e) {
     e.preventDefault();
+
     let { email, password } = this.state;
-    this.props.login(email, password);
+    this.props.login(email, password, eventEmitter);
     this.setState({
       email: '',
       password: ''
     });
   }
+    
 }
+
+
 
 const mapStateToProps = (state) => {
   return {
@@ -60,8 +72,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    login: (email, password) => dispatch(login(email, password))
+    login: (email, password, eventEmitter) => dispatch(login(email, password, eventEmitter))
   };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+// /<Link to="/menu" className="btn btn-link">Go to Menu</Link>
