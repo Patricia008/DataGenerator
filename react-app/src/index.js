@@ -1,8 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+import LoginForm from './components/LoginForm/LoginForm';
+import { Provider } from 'react-redux';
+import store from './redux/store';
 
-ReactDOM.render(<App />, document.getElementById('root'));
-registerServiceWorker();
+ReactDOM.render(
+  <Provider store={store}>
+    <LoginForm />
+  </Provider>,
+  document.getElementById('root')
+);

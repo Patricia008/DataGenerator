@@ -4,7 +4,7 @@ services:
   nginx:
     build: ./react-app
     ports:
-        - "80:80"
+        - 80:80
   node:
         build: ./node
         environment:
