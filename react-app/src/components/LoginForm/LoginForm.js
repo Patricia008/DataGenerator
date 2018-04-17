@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { login } from '../../redux/reducer';
 import './LoginForm.css';
-import { Link } from 'react-router-dom';
+
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
+
 let events = require('events');
 let eventEmitter = new events.EventEmitter();
 
@@ -25,24 +28,33 @@ class LoginForm extends Component {
     return (
       <form name="loginForm" onSubmit={this.onSubmit}>
         <div className="form-group-collection">
-          <div className="form-group">
-            <label>Email:</label>
-            <input type="email" name="email" onChange={e => this.setState({email: e.target.value})} value={email}/>
-          </div>
 
-          <div className="form-group">
-            <label>Password:</label>
-            <input type="password" name="password" onChange={e => this.setState({password: e.target.value})} value={password}/>
-          </div>
-        </div>
+          <TextField
+            hintText="Email"
+            floatingLabelText="Email"
+            floatingLabelFixed={false}
+            onChange={e => this.setState({email: e.target.value})} value={email}
+          />
+          <br />
+          <TextField
+            hintText="Password"
+            floatingLabelText="Password"
+            floatingLabelFixed={false}
+            type="password"
+            onChange={e => this.setState({password: e.target.value})} value={password}
+          /><br />
+        </div><br /><br />
 
-        <input type="submit" value="Login" />
-
+        <center>
+        <RaisedButton type="submit" label="Login" />
+        <br /><br />
         <div className="message">
           { isLoginPending && <div>Please wait...</div> }
           { isLoginSuccess && <div>Success.</div> }
           { loginError && <div>{loginError.message}</div> }
         </div>
+        </center>
+        
       </form>
     )
   }
@@ -77,4 +89,3 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
-// /<Link to="/menu" className="btn btn-link">Go to Menu</Link>

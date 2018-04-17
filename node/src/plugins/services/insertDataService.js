@@ -76,7 +76,7 @@ module.exports = {
   },
 
   getExecutionTime: function(){
-    return (endTime - beginTime) + " milliseconds";
+    return "The data aggregation request took ",(endTime - beginTime) + " milliseconds";
   }
 
 };

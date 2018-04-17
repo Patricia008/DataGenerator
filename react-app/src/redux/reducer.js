@@ -45,13 +45,13 @@ function setLoginError(loginError) {
 
 function callLoginApi(email, password, eventEmitter, callback) {
 
-  request.get("http://localhost:8083/checkConnection", (error, resp, body) => {
+  //request.get("http://localhost:8083/checkConnection", (error, resp, body) => {
 
         setTimeout(() => {
 
-          if (error || resp.statusCode !== 200 || !body) {
-            return callback(new Error('Not Connected To Db'));          
-          }
+          // if (error || resp.statusCode !== 200 || !body) {
+          //   return callback(new Error('Not Connected To Db'));          
+          // }
 
           if (email === 'petrut.patricia@gmail.com' && password === 'patricia') {
             eventEmitter.emit('loginSuccess');
@@ -61,7 +61,7 @@ function callLoginApi(email, password, eventEmitter, callback) {
           }
         }, 1000);
 
-      }); 
+     // }); 
 
 }
 

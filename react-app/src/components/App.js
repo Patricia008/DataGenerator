@@ -2,16 +2,34 @@ import React, { Component } from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import LoginForm from './LoginForm/LoginForm'
 import MenuPage from './MenuPage/MenuPage'
+import AggregationPage from './AggregationPage/AggregationPage'
+import ExecutionTimePage from './ExecutionTimePage/ExecutionTimePage'
+
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+// import getMuiTheme from 'material-ui/styles/getMuiTheme';
+// import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
+
+
+function aggregateData(){
+    console.log(">>>>>>>>>>..matched");
+}
 
 class App extends Component {
+
+
   render() {
+
     return (
-    <BrowserRouter>
-          <Switch>
-            <Route exact path='/' component={LoginForm} />
-            <Route path="/menu" component={MenuPage} />
-          </Switch>
-    </BrowserRouter>
+        <MuiThemeProvider >
+            <BrowserRouter>
+                  <Switch>
+                    <Route exact path='/' component={LoginForm} />
+                    <Route path="/menu" component={MenuPage} />
+                    <Route path="/aggregationPage" component={AggregationPage} onEnter={aggregateData}/>
+                    <Route path="/executionTimePage" component={ExecutionTimePage} />
+                  </Switch>
+            </BrowserRouter>
+    </MuiThemeProvider>
     )
   }
 }
