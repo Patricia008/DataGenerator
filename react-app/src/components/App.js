@@ -9,11 +9,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 // import getMuiTheme from 'material-ui/styles/getMuiTheme';
 // import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 
-
-function aggregateData(){
-    console.log(">>>>>>>>>>..matched");
-}
-
 class App extends Component {
 
 
@@ -25,7 +20,7 @@ class App extends Component {
                   <Switch>
                     <Route exact path='/' component={LoginForm} />
                     <Route path="/menu" component={MenuPage} />
-                    <Route path="/aggregationPage" component={AggregationPage} onEnter={aggregateData}/>
+                    <Route path="/aggregationPage" component={AggregationPage}/>
                     <Route path="/executionTimePage" component={ExecutionTimePage} />
                   </Switch>
             </BrowserRouter>

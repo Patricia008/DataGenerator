@@ -26,9 +26,10 @@ class AggregationPage extends Component {
 
   onPress(){
 
-  request.get("localhost:8083/insertData", (error, resp, body) => {
-
+  request.post("http://localhost:8083/insertData", { json: {}}, (error, resp, body) => {
+          
           if (error || resp.statusCode !== 200) {
+            console.log(error);
             this.setState({response: 'Request has failed!'});     
           }
           else{
@@ -39,7 +40,7 @@ class AggregationPage extends Component {
 }
 
     render() {
-    console.log(this.response);
+
     let {response} = this.state;  
      return (
         <div>

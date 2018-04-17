@@ -16,23 +16,28 @@ class ExecutionTimePage extends Component {
 
     constructor(props) {
       super(props);
-      this.execTimeResp = '0';
+      this.state = {};
+      this.getExecutionTime = this.getExecutionTime.bind(this);
+      this.getExecutionTime();
+    }
+
+    getExecutionTime() {
+      request.get("http://localhost:8083/getExecutionTime", (error, resp, body) => {
+
+          if (error || resp.statusCode !== 200) {
+            console.log(error);
+            this.setState({execTimeResp: 'Request has failed!'});    
+          }
+          else{
+            this.setState({execTimeResp: body}); 
+          }
+          
+      }); 
     }
 
     render() {
-  
-    request.get("localhost:8083/getExecutionTime", (error, resp, body) => {
 
-          if (error || resp.statusCode !== 200) {
-            this.execTimeResp = 'Request has failed!';    
-          }
-          else{
-            this.execTimeResp = body;
-          }
-          
-     }); 
-
-    let execTimeResp = this.execTimeResp;
+    let {execTimeResp} = this.state;
 
      return (
         <div>
@@ -44,6 +49,7 @@ class ExecutionTimePage extends Component {
         </div>
     )
   }
+
 }
 
 export default ExecutionTimePage

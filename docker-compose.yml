@@ -1,10 +1,10 @@
 version: '3'
 
 services:
-  # nginx:
-  #   build: ./react-app
-  #   ports:
-  #       - 80:80
+  nginx:
+    build: ./react-app
+    ports:
+        - 3000:80
   node:
         build: ./node
         environment:

@@ -9,7 +9,11 @@ const style = {
   paper: {
     display: 'inline-block',
     float: 'left',
-    margin: '16px 32px 16px 0'
+    margin: '16px 32px 16px 0',
+    padding: '0 0 20px 0'
+  },
+  logout: {
+    padding: '0 0 0 15px'
   }
 };
 
@@ -29,6 +33,8 @@ class MenuPage extends Component {
               <Link to="/aggregationPage"><MenuItem primaryText="Aggregate Collaboration Songs on iTunes Albums" leftIcon={<RemoveRedEye />} /></Link>
               <Link to="/executionTimePage"><MenuItem primaryText="Get Execution Time" leftIcon={<RemoveRedEye />} /></Link>
             </Menu>
+            <br /><br />
+            <Link to="/" style={style.logout}>LogOut</Link>
           </Paper>
         </div>
     )

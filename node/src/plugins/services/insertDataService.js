@@ -15,9 +15,11 @@ let stopTime = function () {
 module.exports = {
 
   insertAndAggregateData: function (mongoURL, openUrl, databaseName, collectionName){
-    if (endTime - beginTime != 0){
-      return "Data was already inserted!";
-    }
+    
+    //If you don't want duplicates in the DB, uncomment this
+    // if (endTime - beginTime != 0){
+    //   return "Data was already inserted!";
+    // }
 
     beginTime = Date.now();
     eventEmitter.on('doneAggregating', stopTime);
